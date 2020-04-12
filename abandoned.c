@@ -28,7 +28,7 @@ int a_allcount(){
 	return _num;
 }
 
-void a_create(char* b, char* se, char* c, float w, char* d){
+void a_create(int n1, int n2, int n3, char* b, char* se, char* c, float w, char* d, char* st){
 	int index = a_first_available();
 	shelter[index] = (A_Record*)malloc(sizeof(A_Record));
 	A_Record* p = shelter[index];
@@ -37,27 +37,62 @@ void a_create(char* b, char* se, char* c, float w, char* d){
 	strcpy(p->color, c);
 	p->weight = w;
 	strcpy(p->dis, d);
-	strcpy(p->st, "On notice");
-	_num++;
 	int n[3];
-	n[0] = _num / 100;
-	n[1] = (_num%100) / 10;
-	n[2] = _num%10;
-	for(int i=0;i<3;i++){
-		p->num[i] = n[i];
+	if(strcmp(st,"first") != 0){
+		strcpy(p->st, "On notice");
+		_num++;
+		n[0] = _num / 100;
+		n[1] = (_num%100) / 10;
+		n[2] = _num%10;
+		for(int i=0;i<3;i++){
+			p->num[i] = n[i];
+		}
+		a_allcreate(n[0],n[1],n[2],b,se,c,w,d,st);
+	}
+	else{
+		n[0] = n1;
+		n[1] = n2;
+		n[2] = n3;
+		strcpy(p->st,st);
 	}
 	_count++;
-	
-	dogs[index] = (A_Record*)malloc(sizeof(A_Record));
-	A_Record* a = dogs[index];
-	strcpy(a->breed, b);
-	strcpy(a->sex, se);
-	strcpy(a->color, c);
-	a->weight = w;
-	strcpy(a->dis, d);
-	strcpy(a->st, "In shelter");
-	for(int i=0;i<3;i++){
-		a->num[i] = n[i];
+}
+
+void a_allcreate(int n1, int n2, int n3, char* b, char* se, char* c, float w, char* d, char* st){
+	if(srtcmp(st,"first") != 0){
+		dogs[_num-1] = (A_Record*)malloc(sizeof(A_Record));
+		A_Record* a = dogs[_num-1];
+		strcpy(a->breed, b);
+		strcpy(a->sex, se);
+		strcpy(a->color, c);
+		a->weight = w;
+		strcpy(a->dis, d);
+		int n[3];
+		n[0] = n1;
+		n[1] = n2;
+		n[2] = n3;
+		for(int i=0;i<3;i++){
+			a->num[i] = n[i];
+		}
+		strcpy(a->st, "In shelter");
+	}
+	else{
+		dogs[_num] = (A_Record*)malloc(sizeof(A_Record));
+		A_Record* a = dogs[_num];
+		strcpy(a->breed, b);
+		strcpy(a->sex, se);
+		strcpy(a->color, c);
+		a->weight = w;
+		strcpy(a->dis, d);
+		int n[3];
+		n[0] = n1;
+		n[1] = n2;
+		n[2] = n3;
+		for(int i=0;i<3;i++){
+			a->num[i] = n[i];
+		}
+		strcpy(a->st, st);
+		_num++;
 	}
 }
 
@@ -233,10 +268,10 @@ int a_search_by_dis(A_Record* dR[], char* d){
 	}
 	return j;
 }
-int a_search_by_st(A_Record* sR[],char* s){
+int a_search_by_st(A_Record* sR[],char* st){
 	int i,j=0,size=a_count();
 	for(i=0;i<size;i++){
-		if((strstr(shelter[i]->st,s))!=0){
+		if((strstr(shelter[i]->st,st))!=0){
 			sR[j]=shelter[i];
 			j++;
 		}
