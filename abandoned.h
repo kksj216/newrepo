@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define MAX_DOGS 100
-#define ALL 2000
+#define ALL_DOGS 2000
 
 typedef struct st_abandoneddog{
 	int num[3];

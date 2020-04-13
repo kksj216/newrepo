@@ -57,7 +57,7 @@ int main(){
 			case 0:
 				FILE* f = fopen("dogs.txt","w");
 				int size = a_allcount();
-				A_Record* records[ALL];
+				A_Record* records[ALL_DOGS];
 				a_get_all(records);
 				for(int i=0;i<size;i++){
 					fprintf(f,"%s %d%d%d %s %s %s %f %s\n", records[i]->st, records[i]->num[0], records[i]->num[1], records[i]->num[2], records[i]->breed, records[i]->sex, records[i]->color, records[i]->weight, records[i]->dis);
@@ -299,7 +299,7 @@ void sort_record(){
 
 void stat_record(){
 	int i, size;
-	struct class* p[ALL];
+	struct class* p[ALL_DOGS];
 	FILE* f = fopen("stat.txt","rw");
 	fprintf(f,"[전체 유기견 통계]\n\n");
 	fprintf(f,"0. 총\t%d마리\n",for_stat(0));

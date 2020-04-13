@@ -1,6 +1,6 @@
 #include "abandoned.h"
 
-A_Record* dogs[ALL];
+A_Record* dogs[ALL_DOGS];
 A_Record* shelter[MAX_DOGS];
 int _count = 0;
 int _num = 0;
@@ -56,6 +56,9 @@ void a_create(int n1, int n2, int n3, char* b, char* se, char* c, float w, char*
 		strcpy(p->st,st);
 	}
 	_count++;
+	#ifdef DEBUG
+		printf("[DEBUG]shelter에 레코드가 추가되었습니다.\n");
+	#endif
 }
 
 void a_allcreate(int n1, int n2, int n3, char* b, char* se, char* c, float w, char* d, char* st){
@@ -93,7 +96,10 @@ void a_allcreate(int n1, int n2, int n3, char* b, char* se, char* c, float w, ch
 		}
 		strcpy(a->st, st);
 		_num++;
-	}
+	}	
+	#ifdef DEBUG
+		printf("[DEBUG]dogs에 레코드가 추가되었습니다.\n");
+	#endif
 }
 
 A_Record* a_search_by_num(int n){
@@ -130,6 +136,9 @@ char* getnum(A_Record* p){
 
 void a_update(A_Record* p){
 	strcpy(p->st,"Notice expiration");
+	#ifdef DEBUG
+		printf("[DEBUG]레코드가 수정되었습니다.\n");
+	#endif
 }
 
 void a_delete(A_Record* p){
@@ -143,6 +152,9 @@ void a_delete(A_Record* p){
 	free(p);
 	shelter[index] = NULL;
 	_count--;
+	#ifdef DEBUG
+		printf("[DEBUG]레코드가 삭제되었습니다.\n");
+	#endif
 }
 
 void before_d(A_Record* p, int h){
@@ -159,18 +171,30 @@ void before_d(A_Record* p, int h){
 			if(k==3){
 				if(h==1){
 					strcpy(dogs[i]->st,"Adoption");
+					#ifdef DEBUG
+						printf("[DEBUG]유기견의 상태가 [%s]로 변경되었습니다.\n",dogs[i]->st);
+					#endif
 					break;
 				}
 				else if(h==2){
 					strcpy(dogs[i]->st,"Temporary protection");
+					#ifdef DEBUG
+						printf("[DEBUG]유기견의 상태가 [%s]로 변경되었습니다.\n",dogs[i]->st);
+					#endif
 					break;
 				}
 				else if(h==3){
 					strcpy(dogs[i]->st,"Return");
+					#ifdef DEBUG
+						printf("[DEBUG]유기견의 상태가 [%s]로 변경되었습니다.\n",dogs[i]->st);
+					#endif
 					break;
 				}
 				else{
 					strcpy(dogs[i]->st,"Death");
+					#ifdef DEBUG
+						printf("[DEBUG]유기견의 상태가 [%s]로 변경되었습니다.\n",dogs[i]->st);
+					#endif
 					break;
 				}
 			}
@@ -186,16 +210,22 @@ void a_get_shelter(A_Record* a[]){
 			j++;
 		}
 	}
+	#ifdef DEBUG
+		printf("[DEBUG]shelter의 모든 레코드가 배열에 저장되었습니다.\n");
+	#endif
 }
 
 void a_get_all(A_Record* a[]){
 	int i, j=0;
-	for(i=0;i<ALL;i++){
+	for(i=0;i<ALL_DOGS;i++){
 		if(dogs[i]){
 			a[j]=dogs[i];
 			j++;
 		}
 	}
+	#ifdef DEBUG
+		printf("[DEBUG]dogs의 모든 레코드가 배열에 저장되었습니다.\n");
+	#endif
 }
 
 char* a_to_string(A_Record* p){
@@ -234,6 +264,9 @@ int a_search_by_breed(A_Record* bR[],char* b){
 		if((strstr(shelter[i]->breed,b))!=0){
 			bR[j]=shelter[i];
 			j++;
+			#ifdef DEBUG
+				printf("[DEBUG]%d%d%d호가 추가 검색되었습니다.\n", sR[j-1]->num[0], sR[j-1]->num[1], sR[j-1]->num[2]);
+			#endif
 		}
 	}
 	return j;
@@ -244,6 +277,9 @@ int a_search_by_sex(A_Record* seR[], char* se){
 		if((strstr(shelter[i]->sex,se))!=0){
 			seR[j]=shelter[i];
 			j++;
+			#ifdef DEBUG
+				printf("[DEBUG]%d%d%d호가 추가 검색되었습니다.\n", sR[j-1]->num[0], sR[j-1]->num[1], sR[j-1]->num[2]);
+			#endif
 		}
 	}
 	return j;
@@ -254,6 +290,9 @@ int a_search_by_color(A_Record* cR[], char* c){
 		if((strstr(shelter[i]->color,c))!=0){
 			cR[j]=shelter[i];
 			j++;
+			#ifdef DEBUG
+				printf("[DEBUG]%d%d%d호가 추가 검색되었습니다.\n", sR[j-1]->num[0], sR[j-1]->num[1], sR[j-1]->num[2]);
+			#endif
 		}
 	}
 	return j;
@@ -264,6 +303,9 @@ int a_search_by_dis(A_Record* dR[], char* d){
 		if((strstr(shelter[i]->dis,d))!=0){
 			dR[j]=shelter[i];
 			j++;
+			#ifdef DEBUG
+				printf("[DEBUG]%d%d%d호가 추가 검색되었습니다.\n", sR[j-1]->num[0], sR[j-1]->num[1], sR[j-1]->num[2]);
+			#endif
 		}
 	}
 	return j;
@@ -274,6 +316,9 @@ int a_search_by_st(A_Record* sR[],char* st){
 		if((strstr(shelter[i]->st,st))!=0){
 			sR[j]=shelter[i];
 			j++;
+			#ifdef DEBUG
+				printf("[DEBUG]%d%d%d호가 추가 검색되었습니다.\n", sR[j-1]->num[0], sR[j-1]->num[1], sR[j-1]->num[2]);
+			#endif
 		}
 	}
 	return j;
@@ -299,6 +344,9 @@ int mk_class_b(struct class* breeds[]){
 				strcpy(breeds[k]->kind,dogs[i]->breed);
 				breeds[k]->num =1;
 				k++;
+				#ifdef DEBUG
+					printf("[DEBUG]견종 분류에 [%s]가 추가되었습니다.\n",breeds[k-1]->kind);
+				#endif
 			}
 		}
 		else{
@@ -306,6 +354,9 @@ int mk_class_b(struct class* breeds[]){
 			strcpy(breeds[k]->kind,dogs[i]->breed);
 			breeds[k]->num =1;
 			k++;
+			#ifdef DEBUG
+				printf("[DEBUG]견종 분류에 [%s]가 추가되었습니다.\n",breeds[k-1]->kind);
+			#endif
 		}
 	}
 	return k;
@@ -327,6 +378,9 @@ int mk_class_d(struct class* diss[]){
 				strcpy(diss[k]->kind,dogs[i]->dis);
 				diss[k]->num =1;
 				k++;
+				#ifdef DEBUG
+					printf("[DEBUG]발견지 분류에 [%s]가 추가되었습니다.\n",diss[k-1]->kind);
+				#endif
 			}
 		}
 		else{
@@ -334,6 +388,9 @@ int mk_class_d(struct class* diss[]){
 			strcpy(diss[k]->kind,dogs[i]->dis);
 			diss[k]->num =1;
 			k++;
+			#ifdef DEBUG
+				printf("[DEBUG]발견지 분류에 [%s]가 추가되었습니다.\n",diss[k-1]->kind);
+			#endif
 		}
 	}
 	return k;
