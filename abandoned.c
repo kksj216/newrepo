@@ -38,8 +38,8 @@ void a_create(int n1, int n2, int n3, char* b, char* se, char* c, float w, char*
 	p->weight = w;
 	strcpy(p->dis, d);
 	int n[3];
-	if(strcmp(st,"first") != 0){
-		strcpy(p->st, "On notice");
+	if(strcmp(st,"first") == 0){
+		strcpy(p->st, "On_notice");
 		_num++;
 		n[0] = _num / 100;
 		n[1] = (_num%100) / 10;
@@ -53,6 +53,9 @@ void a_create(int n1, int n2, int n3, char* b, char* se, char* c, float w, char*
 		n[0] = n1;
 		n[1] = n2;
 		n[2] = n3;
+		for(int i=0;i<3;i++){
+			p->num[i] = n[i];
+		}
 		strcpy(p->st,st);
 	}
 	_count++;
@@ -62,7 +65,7 @@ void a_create(int n1, int n2, int n3, char* b, char* se, char* c, float w, char*
 }
 
 void a_allcreate(int n1, int n2, int n3, char* b, char* se, char* c, float w, char* d, char* st){
-	if(srtcmp(st,"first") != 0){
+	if(strcmp(st,"first") == 0){
 		dogs[_num-1] = (A_Record*)malloc(sizeof(A_Record));
 		A_Record* a = dogs[_num-1];
 		strcpy(a->breed, b);
@@ -77,7 +80,7 @@ void a_allcreate(int n1, int n2, int n3, char* b, char* se, char* c, float w, ch
 		for(int i=0;i<3;i++){
 			a->num[i] = n[i];
 		}
-		strcpy(a->st, "In shelter");
+		strcpy(a->st, "In_shelter");
 	}
 	else{
 		dogs[_num] = (A_Record*)malloc(sizeof(A_Record));
@@ -135,7 +138,7 @@ char* getnum(A_Record* p){
 }
 
 void a_update(A_Record* p){
-	strcpy(p->st,"Notice expiration");
+	strcpy(p->st,"Notice_expiration");
 	#ifdef DEBUG
 		printf("[DEBUG]레코드가 수정되었습니다.\n");
 	#endif
@@ -177,7 +180,7 @@ void before_d(A_Record* p, int h){
 					break;
 				}
 				else if(h==2){
-					strcpy(dogs[i]->st,"Temporary protection");
+					strcpy(dogs[i]->st,"Temporary_protection");
 					#ifdef DEBUG
 						printf("[DEBUG]유기견의 상태가 [%s]로 변경되었습니다.\n",dogs[i]->st);
 					#endif
@@ -324,8 +327,32 @@ int a_search_by_st(A_Record* sR[],char* st){
 	return j;
 }
 
-void a_sort(A_Record* p){
-
+void a_sort(A_Record* p[]){
+	A_Record* to_merge[MAX_DOGS];
+	int i=0, j=0, k;
+	while(j<_count){
+		int min = _num+1;
+		int i_num;
+		for(i=0;i<_count;i++){
+			char num[3] = {shelter[i]->num[0],shelter[i]->num[1],shelter[i]->num[2]};
+			i_num = num[0]*100 + num[1]*10 + num[2];
+			if(i_num < min){
+				min = i_num;
+				k = i;
+			}
+		}
+		to_merge[j] = shelter[k];
+		#ifdef DEBUG
+			printf("[DEBUG]%d호가 %d번째 레코드가 되었습니다.\n",i_num,j);
+		#endif
+		j += 1;
+	}
+	for(i=0;i<_count;i++){
+		shelter[i] = to_merge[i];
+	}
+	#ifdef DEBUG
+		printf("[DEBUG]모든 레코드가 새롭게  정렬되었습니다.\n");
+	#endif
 }
 
 int mk_class_b(struct class* breeds[]){

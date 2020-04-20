@@ -43,7 +43,7 @@ int a_search_by_sex(A_Record* a[], char* se);
 int a_search_by_color(A_Record* a[], char* c);
 int a_search_by_dis(A_Record* a[], char* d);
 int a_search_by_st(A_Record* a[], char* st);
-void a_sort(A_Record* p);
+void a_sort();
 char* getnum(A_Record* p);
 void before_d(A_Record* p, int h);
 int mk_class_b(struct class* breeds[]);

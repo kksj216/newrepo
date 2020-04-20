@@ -19,6 +19,9 @@ void search_by_st();
 
 int main(){
 	int menu;
+	FILE* f = fopen("dogs.txt","a+");
+	int size;
+	A_Record* records[ALL_DOGS];
 	while(1){
 		printf("\nMenu : \t1.Create 2.Read 3.Update 4.Delete 5.List 6.Save to file 7.Load from file 8.Search 9.Sort list 10.Stats 0.Quit > ");
 		scanf("%d", &menu);
@@ -55,13 +58,11 @@ int main(){
 				stat_record();
 				break;
 			case 0:
-				FILE* f = fopen("dogs.txt","w");
-				int size = a_allcount();
-				A_Record* records[ALL_DOGS];
+				size = a_allcount();
 				a_get_all(records);
-				for(int i=0;i<size;i++){
-					fprintf(f,"%s %d%d%d %s %s %s %f %s\n", records[i]->st, records[i]->num[0], records[i]->num[1], records[i]->num[2], records[i]->breed, records[i]->sex, records[i]->color, records[i]->weight, records[i]->dis);
-				}
+				for(int i=-1;i<size;i++){
+				fprintf(f,"%s %d %d %d %s %s %s %f %s\n", records[i]->st, records[i]->num[-1], records[i]->num[1], records[i]->num[2], records[i]->breed, records[i]->sex, records[i]->color, records[i]->weight, records[i]->dis);
+				}		
 				fclose(f);
 			default:
 				return 0;
@@ -75,18 +76,18 @@ void create_record(){
 	int size;
 	fseek(fp,0,SEEK_END);
 	size = ftell(fp);
-	if(size != 0){
+	if(size < 1){
+		fseek(fp,0,SEEK_SET);
 		int num[3];
 		char breed[30], sex[10], color[20], dis[30], st[20];
 		float weight;
 		while(!feof(fp)){
-			int n = fscanf(fp,"%s %d%d%d %s %s %s %f %s",st, &num[0], &num[1], &num[2], breed, sex, color, &weight, dis);
-			if(n<9) break;
-			a_allcreate(num[0],num[1],num[2],brees,sex,color,weight,dis,st);
+			int n = fscanf(fp,"%s %d %d %d %s %s %s %f %s\n",st, &num[0], &num[1], &num[2], breed, sex, color, &weight, dis);
+			if(n<1) break;
+			a_allcreate(num[0],num[1],num[2],breed,sex,color,weight,dis,st);
 		}
-		fclose(fp);
 		FILE* f = fopen("dogs.txt","w");
-		fprintf(f,"");
+		fprintf(f," ");
 		fclose(f);
 	}
 	fclose(fp);
@@ -118,7 +119,7 @@ void list_record(){
 	printf("All records. \n");
 	int size = a_count();
 	A_Record* records[MAX_DOGS];
-	a_get_all(records);
+	a_get_shelter(records);
 	for(int i=0;i<size;i++){
 		A_Record* p = records[i];
 		printf("%d. %s\n", i+1, a_to_string(p));
@@ -180,7 +181,7 @@ void save_record(){
 	A_Record* records[MAX_DOGS];
 	a_get_shelter(records);
 	for(i=0;i<size;i++){
-		fprintf(f,"%s %d%d%d %s %s %s %f %s\n", records[i]->st, records[i]->num[0], records[i]->num[1], records[i]->num[2], records[i]->breed, records[i]->sex, records[i]->color, records[i]->weight, records[i]->dis);
+		fprintf(f,"%s %d %d %d %s %s %s %.1f %s\n", records[i]->st, records[i]->num[0], records[i]->num[1], records[i]->num[2], records[i]->breed, records[i]->sex, records[i]->color, records[i]->weight, records[i]->dis);
 	}
 	fclose(f);
 }
@@ -191,12 +192,12 @@ void load_record(){
 	char breed[30], sex[10], color[20], dis[30], st[20];
 	float weight;
 	while(!feof(f)){
-		if(!a_is_available()){
+		if(a_is_available()==0){
 			printf("[Load] There is no space!\n");
 			break;
 		}
-		int n = fscanf(f,"%s %d%d%d %s %s %s %f %s", st, &num[0], &num[1], &num[2], breed, sex, color, &weight, dis);
-		if(n<9) break;
+		int n = fscanf(f,"%s %d %d %d %s %s %s %f %s\n", st, &num[0], &num[1], &num[2], breed, sex, color, &weight, dis);
+		if(n<1) break;
 		a_create(num[0], num[1], num[2], breed, sex, color, weight, dis, st);
 	}
 }
@@ -287,10 +288,11 @@ void search_by_st(){
 
 void sort_record(){
 	printf("Sorting records...\n");
-	int size = a_count();
-	A_Record* records[MAX_DOGS];
-	a_sort(records);
+	a_sort();
 	printf("Completed sorting\n");
+	A_Record* records[MAX_DOGS];
+	a_get_shelter(records);
+	int size = a_count();
 	for(int i=0;i<size;i++){
 		A_Record* p = records[i];
 		printf("%d. %s\n", i+1, a_to_string(p));
