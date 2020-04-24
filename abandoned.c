@@ -333,12 +333,19 @@ void a_sort(A_Record* p[]){
 	while(j<_count){
 		int min = _num+1;
 		int i_num;
+		int sorted[_count];
 		for(i=0;i<_count;i++){
+			int ok =0;
+			for(int l=0;l<j;l++){
+				if(sorted[l] == i) ok++;
+			}
+			if(ok != 0) continue;
 			char num[3] = {shelter[i]->num[0],shelter[i]->num[1],shelter[i]->num[2]};
 			i_num = num[0]*100 + num[1]*10 + num[2];
 			if(i_num < min){
 				min = i_num;
 				k = i;
+				sorted[j] = k;
 			}
 		}
 		to_merge[j] = shelter[k];
@@ -488,7 +495,13 @@ int for_stat(int cn){
 	else if(cn==8){
 		output=0;
 		for(i=0;i<_count;i++){
-			if(strstr(shelter[i]->st,"emale")!=0){
+			if(strstr(shelter[i]->st,"f")!=0){
+				output++;
+			}
+			else if(strstr(shelter[i]->st,"F")!=0){
+				output++;
+			}
+			else if(strstr(shelter[i]->st,"암")!=0){
 				output++;
 			}
 		}
@@ -497,7 +510,13 @@ int for_stat(int cn){
 	else if(cn==9){
 		output=0;
 		for(i=0;i<_count;i++){
-			if(strstr(shelter[i]->st,"emale")!=0){
+			if(strstr(shelter[i]->st,"f")!=0){
+				output++;
+			}
+			else if(strstr(shelter[i]->st,"F")!=0){
+				output++;
+			}
+			else if(strstr(shelter[i]->st,"암")!=0){
 				output++;
 			}
 		}

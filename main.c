@@ -60,8 +60,8 @@ int main(){
 			case 0:
 				size = a_allcount();
 				a_get_all(records);
-				for(int i=-1;i<size;i++){
-				fprintf(f,"%s %d %d %d %s %s %s %f %s\n", records[i]->st, records[i]->num[-1], records[i]->num[1], records[i]->num[2], records[i]->breed, records[i]->sex, records[i]->color, records[i]->weight, records[i]->dis);
+				for(int i=0;i<size;i++){
+				fprintf(f,"%s %d %d %d %s %s %s %f %s\n", records[i]->st, records[i]->num[0], records[i]->num[1], records[i]->num[2], records[i]->breed, records[i]->sex, records[i]->color, records[i]->weight, records[i]->dis);
 				}		
 				fclose(f);
 			default:
@@ -76,7 +76,7 @@ void create_record(){
 	int size;
 	fseek(fp,0,SEEK_END);
 	size = ftell(fp);
-	if(size < 1){
+	if(size > 1){
 		fseek(fp,0,SEEK_SET);
 		int num[3];
 		char breed[30], sex[10], color[20], dis[30], st[20];
@@ -93,7 +93,7 @@ void create_record(){
 	fclose(fp);
 
 	if(a_is_available() == 0){
-		printf("There is no spce!\n");
+		printf("There is no space!\n");
 		return;
 	}
 	char breed[20], sex[20], color[20], dis[30], st[20];
@@ -181,7 +181,7 @@ void save_record(){
 	A_Record* records[MAX_DOGS];
 	a_get_shelter(records);
 	for(i=0;i<size;i++){
-		fprintf(f,"%s %d %d %d %s %s %s %.1f %s\n", records[i]->st, records[i]->num[0], records[i]->num[1], records[i]->num[2], records[i]->breed, records[i]->sex, records[i]->color, records[i]->weight, records[i]->dis);
+		fprintf(f,"%s %d %d %d %s %s %s %f %s\n", records[i]->st, records[i]->num[0], records[i]->num[1], records[i]->num[2], records[i]->breed, records[i]->sex, records[i]->color, records[i]->weight, records[i]->dis);
 	}
 	fclose(f);
 }
@@ -276,7 +276,7 @@ void search_by_dis(){
 }
 void search_by_st(){
 	char st[20];
-	printf("What st do you want to search? ");
+	printf("What status do you want to search? ");
 	scanf("%s", st);
 	A_Record* records[MAX_DOGS];
 	int size = a_search_by_st(records,st);
