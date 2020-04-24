@@ -8,7 +8,7 @@ int _num = 0;
 int a_is_available(){
 	int i;
 	for(i=0;i<MAX_DOGS;i++){
-		if(dogs[i] == NULL) return 1;
+		if(shelter[i] == NULL) return 1;
 	}
 	return 0;
 }
@@ -16,7 +16,7 @@ int a_is_available(){
 int a_first_available(){
 	int i;
 	for(i=0;i<MAX_DOGS;i++){
-		if(dogs[i] == NULL) return i;
+		if(shelter[i] == NULL) return i;
 	}
 	return -1;
 }
