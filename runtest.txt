@@ -1,0 +1,44 @@
+21900044@peace:~/team$ ./main
+
+Menu :  1.Create 2.Read 3.Update 4.Delete 5.List 6.Save to file 7.Load from file 8.Search 9.Sort list 10.Stats 0.Quit > 1
+
+Enter a new dog's info.
+Dog breed > mixed
+Sex > male
+Fur color > white
+Weight > 5.0
+Discovery > handong
+
+Menu :  1.Create 2.Read 3.Update 4.Delete 5.List 6.Save to file 7.Load from file 8.Search 9.Sort list 10.Stats 0.Quit > 2
+
+Enter a classification number > 1
+
+Dog's info
+Classification number : 001호
+Dog breed : mixed
+Sex : male
+Fur color : white
+Weight : 5.0kg
+Discovered in handong
+[On_notice]
+
+Menu :  1.Create 2.Read 3.Update 4.Delete 5.List 6.Save to file 7.Load from file 8.Search 9.Sort list 10.Stats 0.Quit > 3
+
+Enter a classification number > 1
+
+Menu :  1.Create 2.Read 3.Update 4.Delete 5.List 6.Save to file 7.Load from file 8.Search 9.Sort list 10.Stats 0.Quit > 2
+
+Enter a classification number > 1
+
+Dog's info
+Classification number : 001호
+Dog breed : mixed
+Sex : male
+Fur color : white
+Weight : 5.0kg
+Discovered in handong
+[Notice_expiration]
+
+Menu :  1.Create 2.Read 3.Update 4.Delete 5.List 6.Save to file 7.Load from file 8.Search 9.Sort list 10.Stats 0.Quit > 0
+
+
